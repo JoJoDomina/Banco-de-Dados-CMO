@@ -17,18 +17,19 @@ CREATE TABLE ordem_de_servico (
   descricao_do_problema varchar(1000) NOT NULL,
   obs_os varchar(1000),
   obs_fechamento_os varchar(1000),
-  id_situacao_os int,
-  id_tipo_servico int NOT NULL,
   id_cliente int NOT NULL,  
   id_filial int NOT NULL,  
-  id_funcionario int NOT NULL,  
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_acessorios int,
   id_pecas int,
   id_mao_de_obra int,
   id_nota_fiscal int,
-  id_forma_de_pagamento int
+  id_forma_de_pagamento int,
+  id_setor int NOT NULL,
+  id_funcionario int NOT NULL,  
+  id_situacao_os int,
+  id_tipo_servico int NOT NULL
 );
 
 CREATE TABLE acessorios (
@@ -96,6 +97,7 @@ CREATE TABLE filial (
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_microondas_venda int,
+  id_setor int,
   id_forno_eletrico_venda int
 );
 
@@ -235,7 +237,8 @@ CREATE TABLE setor (
   id_setor int NOT NULL AUTO_INCREMENT,
   nome_setor varchar(200) NOT NULL,
   id_filial int,
-  id_funcionario int
+  id_funcionario int,
+  id_ordem_de_servico int
 );
 
 CREATE TABLE situacao_os (
@@ -272,6 +275,9 @@ ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_pecas FOREIGN KE
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_mao_de_obra FOREIGN KEY (id_mao_de_obra) REFERENCES mao_de_obra(id_mao_de_obra);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_nota_fiscal FOREIGN KEY (id_nota_fiscal) REFERENCES nota_fiscal(id_nota_fiscal);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forma_de_pagamento FOREIGN KEY (id_forma_de_pagamento) REFERENCES forma_de_pagamento(id_forma_de_pagamento);
+ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
+ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
+ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
 ALTER TABLE acessorios ADD CONSTRAINT FK_acessorios_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE acessorios ADD CONSTRAINT FK_acessorios_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE cliente ADD CONSTRAINT FK_cliente_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
@@ -292,6 +298,7 @@ ALTER TABLE filial ADD CONSTRAINT FK_filial_microondas_manut FOREIGN KEY (id_mic
 ALTER TABLE filial ADD CONSTRAINT FK_filial_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
+ALTER TABLE filial ADD CONSTRAINT FK_filial_setor FOREIGN KEY (id_setor) REFERENCES setor(id_filial);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_endereco FOREIGN KEY (id_endereco) REFERENCES endereco(id_endereco);
@@ -322,6 +329,7 @@ ALTER TABLE pecas ADD CONSTRAINT FK_pecas_ordem_de_servico FOREIGN KEY (id_ordem
 ALTER TABLE pecas ADD CONSTRAINT FK_pecas_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE setor ADD CONSTRAINT FK_setor_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE setor ADD CONSTRAINT FK_setor_funcionario FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario);
+ALTER TABLE setor ADD CONSTRAINT FK_setor_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE situacao_os ADD CONSTRAINT FK_situacao_os_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE tipo_de_servico ADD CONSTRAINT FK_tipo_de_servico_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 
