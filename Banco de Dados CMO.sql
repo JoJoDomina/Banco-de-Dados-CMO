@@ -43,9 +43,9 @@ CREATE TABLE acessorios (
   preco_venda_acessorio decimal (10,2) NOT NULL,
   preco_compra_acessorio decimal (10,2) NOT NULL,
   acessorio_tipo_unidade varchar(50) NOT NULL,
+  id_ordem_de_servico int,
   id_marcas int NOT NULL,
   id_condicao int NOT NULL,
-  id_ordem_de_servico int,
   id_filial int NOT NULL
 );
 
@@ -56,7 +56,7 @@ CREATE TABLE cliente (
   cpf_cliente varchar(14) NOT NULL,
   cnpj_cliente varchar(18),
   telefone_cliente varchar(20) NOT NULL,
-  data__de_nascimento_cliente date NOT NULL,
+  data_de_nascimento_cliente date NOT NULL,
   email_cliente varchar(200) NOT NULL,
   senha_cliente varchar(30) NOT NULL,
   id_microondas_manut int,
