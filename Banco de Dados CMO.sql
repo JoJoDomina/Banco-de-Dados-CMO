@@ -43,7 +43,6 @@ CREATE TABLE acessorios (
   preco_compra_acessorio decimal (10,2) NOT NULL,
   acessorio_tipo_unidade varchar(50) NOT NULL,
   id_marcas int NOT NULL,
-  id_orcamento int,
   id_ordem_de_servico int,
   id_filial int NOT NULL
 );
