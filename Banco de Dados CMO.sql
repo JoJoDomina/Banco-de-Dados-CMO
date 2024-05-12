@@ -10,7 +10,7 @@ CREATE TABLE ordem_de_servico (
   data_de_abertura_os date NOT NULL,
   data_garantia_servico date,
   valor_mao_de_obra decimal(10,2),
-  valor_peca decimal(10,2),
+  valor_pecas decimal(10,2),
   valor_acessorio decimal(10,2),
   valor_desconto decimal(10,2),
   valor_total decimal(10,2) NOT NULL,
@@ -59,13 +59,13 @@ CREATE TABLE cliente (
   data__de_nascimento_cliente date NOT NULL,
   email_cliente varchar(200) NOT NULL,
   senha_cliente varchar(30) NOT NULL,
-  id_endereco int NOT NULL,
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_forno_eletrico_venda int,
   id_microondas_venda int,
   id_ordem_de_servico int,
-  id_filial int NOT NULL
+  id_filial int NOT NULL,
+  id_endereco int NOT NULL
 );
 
 CREATE TABLE endereco (
@@ -74,6 +74,7 @@ CREATE TABLE endereco (
   endereco varchar(300) NOT NULL,
   complemento varchar(100),
   bairro varchar(100) NOT NULL,
+  numero varchar(10) NOT NULL,
   cidade varchar(100) NOT NULL,
   estado varchar(60) NOT NULL,
   cep varchar(10) NOT NULL,
@@ -89,7 +90,6 @@ CREATE TABLE filial (
   nome_filial varchar(200) NOT NULL,
   cnpj_filial varchar(14) NOT NULL,
   telefone_filial varchar(20) NOT NULL,
-  id_endereco int NOT NULL,
   id_cliente int,
   id_ordem_de_servico int,
   id_funcionario int,
@@ -100,7 +100,8 @@ CREATE TABLE filial (
   id_microondas_venda int,
   id_setor int,
   id_forno_eletrico_venda int,
-  id_setor int
+  id_setor int,
+  id_endereco int NOT NULL
 );
 
 CREATE TABLE forma_de_pagamento (
@@ -153,9 +154,9 @@ CREATE TABLE funcionario (
   id_setor int NOT NULL,
   id_mao_de_obra int,
   id_situacao_funcionario int NOT NULL,
-  id_endereco int NOT NULL,
   id_filial int NOT NULL,
   id_ordem_de_servico int
+  id_endereco int NOT NULL,
 );
 
 CREATE TABLE situacao_funcionario (
@@ -213,26 +214,26 @@ CREATE TABLE microondas_venda (
 );
 
 CREATE TABLE pecas (
-  PRIMARY KEY (id_peca),
-  id_peca int NOT NULL AUTO_INCREMENT,
-  nome_peca varchar(200) NOT NULL,
-  modelo_peca varchar(100) NOT NULL,
-  qtd_em_estoque_peca int NOT NULL,
-  qtd_min_estoque_peca int,
-  condicao_peca varchar(100) NOT NULL,
-  preco_venda_peca decimal (10,2) NOT NULL,
-  preco_compra_peca decimal (10,2) NOT NULL,
-  peca_tipo_unidade varchar(50) NOT NULL,
+  PRIMARY KEY (id_pecas),
+  id_pecas int NOT NULL AUTO_INCREMENT,
+  nome_pecas varchar(200) NOT NULL,
+  modelo_pecas varchar(100) NOT NULL,
+  qtd_em_estoque_pecas int NOT NULL,
+  qtd_min_estoque_pecas int,
+  condicao_pecas varchar(100) NOT NULL,
+  preco_venda_pecas decimal (10,2) NOT NULL,
+  preco_compra_pecas decimal (10,2) NOT NULL,
+  pecas_tipo_unidade varchar(50) NOT NULL,
   id_marcas int NOT NULL,
   id_condicao int NOT NULL,
   id_ordem_de_servico int,
   id_filial int
 );
 
-CREATE TABLE condicao_peca (
-  PRIMARY KEY (id_condicao_peca)
+CREATE TABLE condicao (
+  PRIMARY KEY (id_condicao)
   id_condicao int NOT NULL AUTO_INCREMENT,
-  condicao_peca varchar(100) NOT NULL,
+  condicao varchar(100) NOT NULL,
   id_pecas int,
   id_acessorios int,
   id_microondas_venda int,
@@ -250,9 +251,9 @@ CREATE TABLE setor (
   PRIMARY KEY (id_setor),
   id_setor int NOT NULL AUTO_INCREMENT,
   nome_setor varchar(200) NOT NULL,
-  id_filial int,
-  id_funcionario int,
   id_ordem_de_servico int
+  id_filial int,
+  id_funcionario int
 );
 
 CREATE TABLE situacao_os (
@@ -285,7 +286,7 @@ ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_funcionario FORE
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_microondas_manut FOREIGN KEY (id_microondas_manut) REFERENCES microondas_manut(id_microondas_manut);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
-ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_peca);
+ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_mao_de_obra FOREIGN KEY (id_mao_de_obra) REFERENCES mao_de_obra(id_mao_de_obra);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_nota_fiscal FOREIGN KEY (id_nota_fiscal) REFERENCES nota_fiscal(id_nota_fiscal);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forma_de_pagamento FOREIGN KEY (id_forma_de_pagamento) REFERENCES forma_de_pagamento(id_forma_de_pagamento);
@@ -308,7 +309,7 @@ ALTER TABLE endereco ADD CONSTRAINT FK_endereco_funcionario FOREIGN KEY (id_func
 ALTER TABLE filial ADD CONSTRAINT FK_filial_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_funcionario FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
-ALTER TABLE filial ADD CONSTRAINT FK_filial_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_peca);
+ALTER TABLE filial ADD CONSTRAINT FK_filial_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_microondas_manut FOREIGN KEY (id_microondas_manut) REFERENCES microondas_manut(id_microondas_manut);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
@@ -325,7 +326,7 @@ ALTER TABLE marcas ADD CONSTRAINT FK_marcas_microondas_manut FOREIGN KEY (id_mic
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
-ALTER TABLE marcas ADD CONSTRAINT FK_marcas_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_peca);
+ALTER TABLE marcas ADD CONSTRAINT FK_marcas_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
 ALTER TABLE microondas_manut ADD CONSTRAINT FK_microondas_manut_marcas FOREIGN KEY (id_marcas) REFERENCES marcas(id_marcas);
 ALTER TABLE microondas_manut ADD CONSTRAINT FK_microondas_manut_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
@@ -350,6 +351,10 @@ ALTER TABLE setor ADD CONSTRAINT FK_setor_funcionario FOREIGN KEY (id_funcionari
 ALTER TABLE setor ADD CONSTRAINT FK_setor_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE situacao_os ADD CONSTRAINT FK_situacao_os_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE tipo_de_servico ADD CONSTRAINT FK_tipo_de_servico_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
+ALTER TABLE condicao ADD CONSTRAINT FK_condicao_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
+ALTER TABLE condicao ADD CONSTRAINT FK_condicao_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
+ALTER TABLE condicao ADD CONSTRAINT FK_condicao_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
+ALTER TABLE condicao ADD CONSTRAINT FK_condicao_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
 
 
 
@@ -379,7 +384,7 @@ INSERT INTO ordem_de_servico (data_de_abertura_os, valor_total, descricao_do_pro
 VALUES ('2024-05-10', 250.00, 'Microondas não aquece', 1, 1, 1, 1);
 INSERT INTO microondas_manut (modelo_microondas, num_identificacao_microondas, cor_microondas, id_marcas, id_ordem_de_servico, id_cliente)
 VALUES ('ME20S', '1234567890', 'Prata', 1, 1, 1);
-INSERT INTO pecas (nome_peca, modelo_peca, qtd_em_estoque_peca, condicao_peca, preco_venda_peca, preco_compra_peca, peca_tipo_unidade, id_marcas, id_ordem_de_servico, id_filial)
+INSERT INTO pecas (nome_pecas, modelo_pecas, qtd_em_estoque_pecas, condicao_pecas, preco_venda_pecas, preco_compra_pecas, pecas_tipo_unidade, id_marcas, id_ordem_de_servico, id_filial)
 VALUES ('Magnetron', 'ABC123', 10, 'Usada', 50.00, 25.00, 'Unidade', 1, 1, 1);
 INSERT INTO forma_de_pagamento (forma_de_pagamento, id_plano_de_pagamento, id_ordem_de_servico)
 VALUES ('Cartão de Crédito', 1, 1);
