@@ -61,8 +61,8 @@ CREATE TABLE cliente (
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_microondas_venda int,
-  id_forno_eletrico_venda int,
   id_filial int,
+  id_forno_eletrico_venda int,
   id_ordem_de_servico int
 );
 
@@ -76,8 +76,8 @@ CREATE TABLE endereco (
   estado varchar(60) NOT NULL,
   cep varchar(10) NOT NULL,
   observacao varchar(200),
-  id_filial int,
   id_cliente int,
+  id_filial int,
   id_funcionario int
 );
 
@@ -89,8 +89,8 @@ CREATE TABLE filial (
   telefone_filial varchar(20) NOT NULL,
   id_endereco int NOT NULL,
   id_cliente int,
-  id_funcionario int,
   id_ordem_de_servico int,
+  id_funcionario int,
   id_pecas int,
   id_acessorios int,
   id_microondas_manut int,
@@ -134,8 +134,10 @@ CREATE TABLE forno_eletrico_venda (
 CREATE TABLE funcionario (
   PRIMARY KEY (id_funcionario),
   id_funcionario int NOT NULL AUTO_INCREMENT,
-  cpf_funcionario varchar(11) NOT NULL,
   nome_funcionario varchar(200) NOT NULL,
+  cpf_funcionario varchar(11) NOT NULL,
+  cnpj_funcionario varchar(18),
+  data_de_nascimento_funcionario date NOT NULL,
   data_admissao date NOT NULL,
   data_demissao date,
   funcao_funcionario varchar(50) NOT NULL,
@@ -144,8 +146,8 @@ CREATE TABLE funcionario (
   senha_funcionario varchar(30) NOT NULL,
   telefone_funcionario varchar(20) NOT NULL,
   id_setor int NOT NULL,
-  id_filial int NOT NULL,
   id_endereco int NOT NULL,
+  id_filial int NOT NULL,
   id_ordem_de_servico int
 );
 
