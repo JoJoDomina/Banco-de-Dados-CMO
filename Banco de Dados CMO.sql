@@ -17,20 +17,20 @@ CREATE TABLE ordem_de_servico (
   descricao_do_problema varchar(1000) NOT NULL,
   obs_os varchar(1000),
   obs_fechamento_os varchar(1000),
-  id_cliente int NOT NULL,  
-  id_filial int NOT NULL,  
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_acessorios int,
   id_microondas_venda int,
   id_forno_eletrico_venda int,
   id_pecas int,
-  id_mao_de_obra int,
-  id_forma_de_pagamento int,
-  id_setor int NOT NULL,
-  id_funcionario int NOT NULL,  
+  id_cliente int NOT NULL,  
   id_tipo_servico int NOT NULL,
+  id_forma_de_pagamento int,
   id_situacao_os int,
+  id_funcionario int NOT NULL,  
+  id_filial int NOT NULL,  
+  id_setor int NOT NULL,
+  id_mao_de_obra int
 );
 
 CREATE TABLE acessorios (
@@ -90,17 +90,16 @@ CREATE TABLE filial (
   nome_filial varchar(200) NOT NULL,
   cnpj_filial varchar(14) NOT NULL,
   telefone_filial varchar(20) NOT NULL,
-  id_cliente int,
   id_ordem_de_servico int,
-  id_funcionario int,
   id_pecas int,
   id_acessorios int,
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_microondas_venda int,
-  id_setor int,
   id_forno_eletrico_venda int,
+  id_funcionario int,
   id_setor int,
+  id_cliente int,
   id_endereco int NOT NULL
 );
 
@@ -153,6 +152,7 @@ CREATE TABLE funcionario (
   telefone_funcionario varchar(20) NOT NULL,
   id_setor int NOT NULL,
   id_mao_de_obra int,
+  id_situacao_os int,
   id_situacao_funcionario int NOT NULL,
   id_filial int NOT NULL,
   id_ordem_de_servico int
@@ -254,6 +254,7 @@ CREATE TABLE setor (
   id_ordem_de_servico int
   id_filial int,
   id_funcionario int
+  id_mao_de_obra int
 );
 
 CREATE TABLE situacao_os (
@@ -263,6 +264,7 @@ CREATE TABLE situacao_os (
   data_de_exclusao_os date,
   data_de_previsao_os date,
   data_de_execucao_os date,
+  id_funcionario int NOT NULL,
   id_ordem_de_servico int NOT NULL
 );  
 
@@ -320,6 +322,7 @@ ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_setor FOREIGN KEY (id_seto
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_endereco FOREIGN KEY (id_endereco) REFERENCES endereco(id_endereco);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
+ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_situacao_os FOREIGN KEY (id_situacao_os) REFERENCES situacao_os(id_situacao_os);
 ALTER TABLE mao_de_obra ADD CONSTRAINT FK_mao_de_obra_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
 ALTER TABLE mao_de_obra ADD CONSTRAINT FK_mao_de_obra_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_microondas_manut FOREIGN KEY (id_microondas_manut) REFERENCES microondas_manut(id_microondas_manut);
@@ -349,6 +352,7 @@ ALTER TABLE pecas ADD CONSTRAINT FK_pecas_condicao FOREIGN KEY (id_condicao) REF
 ALTER TABLE setor ADD CONSTRAINT FK_setor_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE setor ADD CONSTRAINT FK_setor_funcionario FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario);
 ALTER TABLE setor ADD CONSTRAINT FK_setor_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
+ALTER TABLE setor ADD CONSTRAINT FK_setor_mao_de_obra FOREIGN KEY (id_mao_de_obra) REFERENCES mao_de_obra(id_mao_de_obra);
 ALTER TABLE situacao_os ADD CONSTRAINT FK_situacao_os_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE tipo_de_servico ADD CONSTRAINT FK_tipo_de_servico_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE condicao ADD CONSTRAINT FK_condicao_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
