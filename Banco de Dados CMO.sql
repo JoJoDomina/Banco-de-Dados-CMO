@@ -298,7 +298,9 @@ ALTER TABLE mao_de_obra ADD CONSTRAINT FK_mao_de_obra_setor FOREIGN KEY (id_seto
 ALTER TABLE mao_de_obra ADD CONSTRAINT FK_mao_de_obra_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE mao_de_obra ADD CONSTRAINT FK_mao_de_obra_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_microondas_manut FOREIGN KEY (id_microondas_manut) REFERENCES microondas_manut(id_microondas_manut);
+ALTER TABLE marcas ADD CONSTRAINT FK_marcas_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
+ALTER TABLE marcas ADD CONSTRAINT FK_marcas_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_peca);
 ALTER TABLE marcas ADD CONSTRAINT FK_marcas_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
 ALTER TABLE microondas_manut ADD CONSTRAINT FK_microondas_manut_marcas FOREIGN KEY (id_marcas) REFERENCES marcas(id_marcas);
