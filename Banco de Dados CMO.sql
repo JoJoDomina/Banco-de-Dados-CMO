@@ -163,7 +163,9 @@ CREATE TABLE marcas (
   id_marcas int NOT NULL AUTO_INCREMENT,
   nome_marca varchar(200) NOT NULL,
   id_microondas_manut int,
+  id_microondas_venda int,
   id_forno_eletrico_manut int,
+  id_forno_eletrico_venda int,
   id_pecas int,
   id_acessorios int
 );
