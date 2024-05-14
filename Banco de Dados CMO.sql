@@ -10,13 +10,12 @@ CREATE TABLE ordem_de_servico (
   data_de_abertura_os date NOT NULL,
   data_garantia_servico date,
   valor_mao_de_obra decimal(10,2),
-  valor_pecas decimal(10,2),
+  valor_peca decimal(10,2),
   valor_acessorio decimal(10,2),
   valor_desconto decimal(10,2),
   valor_total decimal(10,2) NOT NULL,
   descricao_do_problema varchar(1000) NOT NULL,
   obs_os varchar(1000),
-  obs_fechamento_os varchar(1000),
   id_microondas_manut int,
   id_forno_eletrico_manut int,
   id_acessorios int,
@@ -119,7 +118,8 @@ CREATE TABLE forno_eletrico_manut (
   cor_forno_eletrico varchar(100) NOT NULL,
   id_marcas int NOT NULL,
   id_ordem_de_servico int NOT NULL,
-  id_cliente int NOT NULL
+  id_cliente int NOT NULL,
+  id_filial int NOT NULL
 );
 
 CREATE TABLE forno_eletrico_venda (
@@ -129,12 +129,11 @@ CREATE TABLE forno_eletrico_venda (
   num_identificacao_forno_eletrico_venda varchar(100) NOT NULL,
   cor_forno_eletrico_venda varchar(100) NOT NULL,
   valor_forno_eletrico decimal(10,2) NOT NULL,
-  estado_forno_eletrico varchar(20) NOT NULL,
-  id_cliente int,
-  id_filial int NOT NULL,
+  id_ordem_de_servico int,
   id_marcas int NOT NULL,
   id_condicao int NOT NULL,
-  id_ordem_de_servico int
+  id_filial int NOT NULL,
+  id_cliente int
 );
 
 CREATE TABLE funcionario (
@@ -150,13 +149,13 @@ CREATE TABLE funcionario (
   email_funcionario varchar(200) NOT NULL,
   senha_funcionario varchar(30) NOT NULL,
   telefone_funcionario varchar(20) NOT NULL,
-  id_setor int NOT NULL,
-  id_mao_de_obra int,
+  id_ordem_de_servico int,
   id_situacao_os int,
   id_situacao_funcionario int NOT NULL,
   id_filial int NOT NULL,
-  id_ordem_de_servico int
-  id_endereco int NOT NULL,
+  id_mao_de_obra int,
+  id_setor int NOT NULL,
+  id_endereco int NOT NULL
 );
 
 CREATE TABLE situacao_funcionario (
@@ -171,7 +170,7 @@ CREATE TABLE mao_de_obra (
   id_mao_de_obra int NOT NULL AUTO_INCREMENT,
   nome_mao_de_obra varchar(200) NOT NULL,
   id_setor int NOT NULL,
-  id_ordem_de_servico int
+  id_ordem_de_servico int,
   id_funcionario int NOT NULL
 );
 
@@ -180,11 +179,11 @@ CREATE TABLE marcas (
   id_marcas int NOT NULL AUTO_INCREMENT,
   nome_marca varchar(200) NOT NULL,
   id_microondas_manut int,
-  id_microondas_venda int,
   id_forno_eletrico_manut int,
-  id_forno_eletrico_venda int,
+  id_acessorios int,
   id_pecas int,
-  id_acessorios int
+  id_microondas_venda int,
+  id_forno_eletrico_venda int
 );
 
 CREATE TABLE microondas_manut (
@@ -193,9 +192,10 @@ CREATE TABLE microondas_manut (
   modelo_microondas varchar(100) NOT NULL,
   num_identificacao_microondas varchar(100) NOT NULL,
   cor_microondas varchar(100) NOT NULL,
-  id_marcas int NOT NULL,
   id_ordem_de_servico int NOT NULL,
-  id_cliente int NOT NULL
+  id_marcas int NOT NULL,
+  id_cliente int NOT NULL,
+  id_filial int NOT NULL
 );
 
 CREATE TABLE microondas_venda (
@@ -205,12 +205,11 @@ CREATE TABLE microondas_venda (
   num_identificacao_microondas_venda varchar(100) NOT NULL,
   cor_microondas_venda varchar(100) NOT NULL,
   valor_microondas decimal(10,2) NOT NULL,
-  estado_microondas varchar(20) NOT NULL,
-  id_cliente int,
+  id_ordem_de_servico int,
   id_marcas int NOT NULL,
   id_condicao int NOT NULL,
   id_filial int NOT NULL,
-  id_ordem_de_servico int
+  id_cliente int
 );
 
 CREATE TABLE pecas (
@@ -220,14 +219,13 @@ CREATE TABLE pecas (
   modelo_pecas varchar(100) NOT NULL,
   qtd_em_estoque_pecas int NOT NULL,
   qtd_min_estoque_pecas int,
-  condicao_pecas varchar(100) NOT NULL,
   preco_venda_pecas decimal (10,2) NOT NULL,
   preco_compra_pecas decimal (10,2) NOT NULL,
   pecas_tipo_unidade varchar(50) NOT NULL,
-  id_marcas int NOT NULL,
-  id_condicao int NOT NULL,
   id_ordem_de_servico int,
-  id_filial int
+  id_filial int,
+  id_marcas int NOT NULL,
+  id_condicao int NOT NULL
 );
 
 CREATE TABLE condicao (
@@ -251,10 +249,10 @@ CREATE TABLE setor (
   PRIMARY KEY (id_setor),
   id_setor int NOT NULL AUTO_INCREMENT,
   nome_setor varchar(200) NOT NULL,
-  id_ordem_de_servico int
   id_filial int,
+  id_ordem_de_servico int,
+  id_mao_de_obra int,
   id_funcionario int
-  id_mao_de_obra int
 );
 
 CREATE TABLE situacao_os (
@@ -264,8 +262,10 @@ CREATE TABLE situacao_os (
   data_de_exclusao_os date,
   data_de_previsao_os date,
   data_de_execucao_os date,
-  id_funcionario int NOT NULL,
-  id_ordem_de_servico int NOT NULL
+  data_de_fechamento_os date,
+  obs_fechamento_os varchar(100),
+  id_ordem_de_servico int NOT NULL,
+  id_funcionario int NOT NULL
 );  
 
 CREATE TABLE tipo_de_servico (
