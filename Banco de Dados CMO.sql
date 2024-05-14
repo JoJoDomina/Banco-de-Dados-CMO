@@ -229,7 +229,7 @@ CREATE TABLE pecas (
 );
 
 CREATE TABLE condicao (
-  PRIMARY KEY (id_condicao)
+  PRIMARY KEY (id_condicao),
   id_condicao int NOT NULL AUTO_INCREMENT,
   condicao varchar(100) NOT NULL,
   id_pecas int,
@@ -359,3 +359,7 @@ ALTER TABLE condicao ADD CONSTRAINT FK_condicao_pecas FOREIGN KEY (id_pecas) REF
 ALTER TABLE condicao ADD CONSTRAINT FK_condicao_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
 ALTER TABLE condicao ADD CONSTRAINT FK_condicao_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
 ALTER TABLE condicao ADD CONSTRAINT FK_condicao_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
+ALTER TABLE forma_de_pagamento ADD CONSTRAINT FK_forma_de_pagamento_plano_de_pagamento FOREIGN KEY (id_plano_de_pagamento) REFERENCES plano_de_pagamento(id_plano_de_pagamento);
+ALTER TABLE forma_de_pagamento ADD CONSTRAINT FK_forma_de_pagamento_ordem_de_servico FOREIGN KEY (id_ordem_de_servico) REFERENCES ordem_de_servico(id_ordem_de_servico);
+ALTER TABLE plano_de_pagamento ADD CONSTRAINT FK_plano_de_pagamento_forma_de_pagamento FOREIGN KEY (id_forma_de_pagamento) REFERENCES forma_de_pagamento(id_forma_de_pagamento);
+ALTER TABLE situacao_funcionario ADD CONSTRAINT FK_situacao_funcionario_funcionario FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario);
