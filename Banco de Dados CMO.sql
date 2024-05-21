@@ -290,7 +290,6 @@ ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forno_eletrico_m
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_acessorios FOREIGN KEY (id_acessorios) REFERENCES acessorios(id_acessorios);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_pecas FOREIGN KEY (id_pecas) REFERENCES pecas(id_pecas);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_mao_de_obra FOREIGN KEY (id_mao_de_obra) REFERENCES mao_de_obra(id_mao_de_obra);
-ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_nota_fiscal FOREIGN KEY (id_nota_fiscal) REFERENCES nota_fiscal(id_nota_fiscal);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_forma_de_pagamento FOREIGN KEY (id_forma_de_pagamento) REFERENCES forma_de_pagamento(id_forma_de_pagamento);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
 ALTER TABLE ordem_de_servico ADD CONSTRAINT FK_ordem_de_servico_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
