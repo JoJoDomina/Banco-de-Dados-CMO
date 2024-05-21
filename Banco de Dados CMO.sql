@@ -316,7 +316,7 @@ ALTER TABLE filial ADD CONSTRAINT FK_filial_microondas_manut FOREIGN KEY (id_mic
 ALTER TABLE filial ADD CONSTRAINT FK_filial_forno_eletrico_manut FOREIGN KEY (id_forno_eletrico_manut) REFERENCES forno_eletrico_manut(id_forno_eletrico_manut);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_microondas_venda FOREIGN KEY (id_microondas_venda) REFERENCES microondas_venda(id_microondas_venda);
 ALTER TABLE filial ADD CONSTRAINT FK_filial_forno_eletrico_venda FOREIGN KEY (id_forno_eletrico_venda) REFERENCES forno_eletrico_venda(id_forno_eletrico_venda);
-ALTER TABLE filial ADD CONSTRAINT FK_filial_setor FOREIGN KEY (id_setor) REFERENCES setor(id_filial);
+ALTER TABLE filial ADD CONSTRAINT FK_filial_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_setor FOREIGN KEY (id_setor) REFERENCES setor(id_setor);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_filial FOREIGN KEY (id_filial) REFERENCES filial(id_filial);
 ALTER TABLE funcionario ADD CONSTRAINT FK_funcionario_endereco FOREIGN KEY (id_endereco) REFERENCES endereco(id_endereco);
